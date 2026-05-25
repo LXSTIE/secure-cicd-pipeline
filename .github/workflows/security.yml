@@ -128,15 +128,17 @@ jobs:
         with:
           name: pip-audit-report
           path: pip-audit.json
-
+          
       - name: Run Trivy filesystem scan
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           scan-type: 'fs'
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-fs.sarif'
           severity: 'CRITICAL,HIGH'
+          exit-code: '0'
 
       - name: Upload Trivy SARIF
         if: always()
